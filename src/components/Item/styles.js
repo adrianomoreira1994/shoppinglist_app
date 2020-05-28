@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  background-color: ${(props) => (props.click ? 'rgba(0, 0, 0, 0.2)' : '#FFF')};
+  background: #fff;
   border-radius: 10px;
   margin-bottom: 15px;
   flex-direction: row;

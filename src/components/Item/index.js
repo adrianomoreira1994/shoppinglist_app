@@ -26,11 +26,7 @@ export default function Item({ data }) {
         }
       }}
       minDurationMs={200}>
-      <Container
-        click={click}
-        onTouchEnd={() => setClick(false)}
-        onTouchCancel={() => setClick(false)}
-        onTouchStart={() => setClick(true)}>
+      <Container>
         <ContainerPrice>
           <Price>R$ {data.price}</Price>
         </ContainerPrice>
