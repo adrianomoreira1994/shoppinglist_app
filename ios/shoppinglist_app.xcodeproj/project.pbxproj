@@ -42,6 +42,7 @@
 		46F63231A320466DBB5FA1B1 /* Roboto Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9924D0C51184B709B3C0F0A /* Roboto Light.ttf */; };
 		4A4E4E60960D4C2DA94440D1 /* Roboto Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 352102EAE4434FD0A7F2337B /* Roboto Medium.ttf */; };
 		4CDCE660CDB64D06BC6A4866 /* Roboto Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0EEAEAB907884A6CAA5EAE60 /* Roboto Regular.ttf */; };
+		233FD42F18644F719F04F1D3 /* libRNIntl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BBEE75424E5499182F10243 /* libRNIntl.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +104,8 @@
 		A9924D0C51184B709B3C0F0A /* Roboto Light.ttf */ = {isa = PBXFileReference; name = "Roboto Light.ttf"; path = "../assets/fonts/Roboto Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		352102EAE4434FD0A7F2337B /* Roboto Medium.ttf */ = {isa = PBXFileReference; name = "Roboto Medium.ttf"; path = "../assets/fonts/Roboto Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		0EEAEAB907884A6CAA5EAE60 /* Roboto Regular.ttf */ = {isa = PBXFileReference; name = "Roboto Regular.ttf"; path = "../assets/fonts/Roboto Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		748D94E4E3D34BBBB09B6693 /* RNIntl.xcodeproj */ = {isa = PBXFileReference; name = "RNIntl.xcodeproj"; path = "../node_modules/react-native-intl/RNIntl.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		2BBEE75424E5499182F10243 /* libRNIntl.a */ = {isa = PBXFileReference; name = "libRNIntl.a"; path = "libRNIntl.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				233FD42F18644F719F04F1D3 /* libRNIntl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,6 +184,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				748D94E4E3D34BBBB09B6693 /* RNIntl.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -579,6 +584,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/shoppinglist_app.app/shoppinglist_app";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/..",
+				);
 			};
 			name = Debug;
 		};
@@ -598,6 +611,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/shoppinglist_app.app/shoppinglist_app";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/..",
+				);
 			};
 			name = Release;
 		};
@@ -624,6 +645,10 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/..",
+				);
 			};
 			name = Debug;
 		};
@@ -644,6 +669,10 @@
 				PRODUCT_NAME = shoppinglist_app;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/..",
+				);
 			};
 			name = Release;
 		};
@@ -671,6 +700,14 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/..",
+				);
 			};
 			name = Debug;
 		};
@@ -698,6 +735,14 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/..",
+				);
 			};
 			name = Release;
 		};
@@ -724,6 +769,14 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/shoppinglist_app-tvOS.app/shoppinglist_app-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/..",
+				);
 			};
 			name = Debug;
 		};
@@ -750,6 +803,14 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/shoppinglist_app-tvOS.app/shoppinglist_app-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/..",
+				);
 			};
 			name = Release;
 		};

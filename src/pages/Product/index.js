@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { useRoute } from '@react-navigation/native';
 import { ActivityIndicator, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+import { Context } from '~/Context/ShoppingContext';
 
 import {
   Container,
@@ -12,24 +15,43 @@ import {
   Submit,
   SubmitLabel,
 } from './styles';
-import api from '~/services/api';
 
-export default function Product({ navigation }) {
+export default function Product({ navigation, product }) {
+  const [id, setId] = useState(0);
   const [title, setTitle] = useState('');
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
   const [loading, setLoading] = useState(false);
+  const { registerProduct, updateProduct } = useContext(Context);
+  const routeData = useRoute();
 
-  async function handleSubmitForm() {
+  useEffect(() => {
+    if (routeData.params !== undefined) {
+      setId(routeData.params.id);
+      setTitle(routeData.params.title);
+      setQuantity(routeData.params.quantity);
+      setPrice(routeData.params.price);
+    }
+  }, []);
+
+  function handleSubmitForm() {
     try {
       setLoading(true);
+
       const product = {
         title,
         quantity,
         price,
       };
 
-      await api.post('/products', product);
+      if (id > 0) {
+        product.id = id;
+
+        updateProduct(product);
+      } else {
+        registerProduct(product);
+      }
+
       setLoading(false);
       navigation.navigate('Home');
     } catch (error) {
@@ -47,7 +69,7 @@ export default function Product({ navigation }) {
         />
         <Form>
           <Input
-            value={title}
+            value={String(title)}
             onChangeText={(value) => setTitle(value)}
             placeholder="Nome do produto"
           />
@@ -78,11 +100,16 @@ export default function Product({ navigation }) {
 
           <Submit onPress={handleSubmitForm}>
             {!loading ? (
-              <Icon name="check" color="#00b874" size={20} />
+              <Icon name="check" color="#00b874" size={30} />
             ) : (
               <ActivityIndicator color="#00b874" size={30} />
             )}
-            <SubmitLabel>Adicionar</SubmitLabel>
+
+            {routeData.params !== undefined && routeData.params.id > 0 ? (
+              <SubmitLabel>Atualizar</SubmitLabel>
+            ) : (
+              <SubmitLabel>Adicionar</SubmitLabel>
+            )}
           </Submit>
         </Form>
       </ScrollViewContainer>

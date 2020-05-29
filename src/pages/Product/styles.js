@@ -4,7 +4,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import LinearGradient from 'react-native-linear-gradient';
 
 export const Container = styled(LinearGradient).attrs({
-  colors: ['#53E381', '#00b874'],
+  colors: ['#00b874', '#53E381'],
   start: { x: 0, y: 0 },
   end: { x: 1, y: 1 },
 })`
@@ -21,7 +21,7 @@ export const Form = styled.View`
 `;
 
 export const Input = styled.TextInput.attrs({
-  placeholderTextColor: '#fbfbfb',
+  placeholderTextColor: 'rgba(255, 255, 255, 0.6)',
 })`
   height: 100px;
   font-size: 25px;
@@ -33,7 +33,7 @@ export const Input = styled.TextInput.attrs({
 `;
 
 export const InputMasked = styled(TextInputMask).attrs({
-  placeholderTextColor: '#fbfbfb',
+  placeholderTextColor: 'rgba(255, 255, 255, 0.6)',
 })`
   height: 100px;
   font-size: 25px;
@@ -50,21 +50,20 @@ export const FormGroup = styled.View`
 `;
 
 export const Submit = styled(BaseButton)`
-  margin-top: 40px;
-  background-color: #fff;
+  background-color: #fbfbfb;
   height: 60px;
-  border-radius: 100px;
+  border-radius: 30px;
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  flex: 1;
-  width: 100%;
-  elevation: 4;
+  width: 200px;
+  elevation: 2;
+  margin: 40px auto 0;
 `;
 
 export const SubmitLabel = styled.Text`
   color: #00b874;
   margin-left: 10px;
   font-family: 'Roboto Medium';
-  font-size: 18px;
+  font-size: 20px;
 `;
