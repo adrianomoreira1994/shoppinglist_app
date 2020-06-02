@@ -21,3 +21,9 @@ export const ContaienrList = styled.View`
   border-top-right-radius: 25px;
   border-top-left-radius: 25px;
 `;
+
+export const Loading = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;

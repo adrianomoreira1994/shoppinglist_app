@@ -7,7 +7,10 @@ function ShoppingProvider({ children }) {
   const {
     loading,
     products,
+    productsForRemoving,
+    setProductsForRemoving,
     removeProduct,
+    removeProductBulk,
     registerProduct,
     updateQuantity,
     updateProduct,
@@ -18,7 +21,10 @@ function ShoppingProvider({ children }) {
       value={{
         products,
         loading,
+        productsForRemoving,
+        setProductsForRemoving,
         removeProduct,
+        removeProductBulk,
         registerProduct,
         updateQuantity,
         updateProduct,

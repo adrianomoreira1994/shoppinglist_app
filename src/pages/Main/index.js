@@ -1,16 +1,14 @@
 /** Core */
 import React, { useContext, useState, useEffect } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, PixelRatio } from 'react-native';
 
 import { Context } from '~/Context/ShoppingContext';
 
 import { Container, List, ContaienrList } from './styles';
 
-import Item from '~/components/Item';
+import ListItem from '~/components/ListItem';
 import Balance from '~/components/Balance';
 import FloatingActionButton from '~/components/FloatingActionButton';
-
-import Toast from 'react-native-tiny-toast';
 
 export default function Main({ navigation }) {
   const [buttonHidden, setButtonHidden] = useState(false);
@@ -29,7 +27,7 @@ export default function Main({ navigation }) {
         onPress={() => navigation.navigate('Product')}
       />
 
-      <Balance navigation={navigation} />
+      <Balance />
 
       <ContaienrList>
         <List
@@ -39,9 +37,7 @@ export default function Main({ navigation }) {
           onScrollEndDrag={() => setButtonHidden(false)}
           data={products}
           keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => (
-            <Item navigation={navigation} data={item} />
-          )}
+          renderItem={({ item }) => <ListItem data={item} />}
         />
       </ContaienrList>
     </Container>

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { useRoute } from '@react-navigation/native';
 import { ActivityIndicator, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -16,14 +16,18 @@ import {
   SubmitLabel,
 } from './styles';
 
-export default function Product({ navigation, product }) {
-  const [id, setId] = useState(0);
+export default function Product({ navigation }) {
+  const [productId, setId] = useState('');
   const [title, setTitle] = useState('');
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
-  const [loading, setLoading] = useState(false);
-  const { registerProduct, updateProduct } = useContext(Context);
+
+  const titleRef = useRef(null);
+  const quantityRef = useRef(null);
+  const priceRef = useRef(null);
+
   const routeData = useRoute();
+  const { registerProduct, updateProduct, loading } = useContext(Context);
 
   useEffect(() => {
     if (routeData.params !== undefined) {
@@ -35,27 +39,22 @@ export default function Product({ navigation, product }) {
   }, []);
 
   function handleSubmitForm() {
-    try {
-      setLoading(true);
+    const product = {
+      title,
+      quantity,
+      price,
+    };
+    if (productId !== '' && productId !== undefined) {
+      product.id = productId;
+      updateProduct(product, navigation);
+    } else {
+      registerProduct(product);
+      setId('');
+      setTitle('');
+      setQuantity('');
+      setPrice('');
 
-      const product = {
-        title,
-        quantity,
-        price,
-      };
-
-      if (id > 0) {
-        product.id = id;
-
-        updateProduct(product);
-      } else {
-        registerProduct(product);
-      }
-
-      setLoading(false);
-      navigation.navigate('Home');
-    } catch (error) {
-      setLoading(false);
+      titleRef.current.focus();
     }
   }
 
@@ -69,20 +68,29 @@ export default function Product({ navigation, product }) {
         />
         <Form>
           <Input
+            ref={titleRef}
             value={String(title)}
             onChangeText={(value) => setTitle(value)}
             placeholder="Nome do produto"
+            returnKeyType="next"
+            onSubmitEditing={() => quantityRef.current.focus()}
+            blurOnSubmit={false}
           />
           <FormGroup>
-            <InputMasked
-              type={'only-numbers'}
+            <Input
+              ref={quantityRef}
               onChangeText={(value) => setQuantity(value)}
               value={String(quantity)}
-              element={'first'}
               placeholder="Quantidade"
               keyboardType="numeric"
+              returnKeyType="next"
+              onSubmitEditing={() => priceRef.current.focus()}
             />
             <InputMasked
+              refInput={(ref) => {
+                priceRef.current = ref;
+              }}
+              returnKeyType="send"
               type={'money'}
               options={{
                 precision: 2,
@@ -95,17 +103,18 @@ export default function Product({ navigation, product }) {
               value={String(price)}
               placeholder="R$0,00"
               keyboardType="numeric"
+              onSubmitEditing={() => handleSubmitForm()}
             />
           </FormGroup>
 
           <Submit onPress={handleSubmitForm}>
-            {!loading ? (
-              <Icon name="check" color="#00b874" size={30} />
-            ) : (
+            {loading ? (
               <ActivityIndicator color="#00b874" size={30} />
+            ) : (
+              <Icon name="check" color="#00b874" size={30} />
             )}
 
-            {routeData.params !== undefined && routeData.params.id > 0 ? (
+            {routeData.params !== undefined && routeData.params.id != '' ? (
               <SubmitLabel>Atualizar</SubmitLabel>
             ) : (
               <SubmitLabel>Adicionar</SubmitLabel>

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://10.0.10.243:3333',
+  baseURL: 'https://shop-list-items.herokuapp.com',
 });
 
 export default api;

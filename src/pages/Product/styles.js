@@ -42,7 +42,7 @@ export const InputMasked = styled(TextInputMask).attrs({
   border-bottom-width: 2px;
   border-bottom-color: rgba(255, 255, 255, 0.2);
   flex: 1;
-  margin-right: ${(props) => (props.element === 'first' ? '15px' : '0px')};
+  margin-left: 15px;
 `;
 
 export const FormGroup = styled.View`

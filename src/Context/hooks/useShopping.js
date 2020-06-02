@@ -1,49 +1,96 @@
 import { useState, useEffect } from 'react';
 import { ToastAndroid } from 'react-native';
-import api from '~/services/api';
+import ProductRepository from '~/repositories/ProductRepository';
+import uuid from '~/util/uuid';
 
 export default function useShopping() {
   const [products, setProducts] = useState([]);
+  const [productsForRemoving, setProductsForRemoving] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  async function removeProduct(productId) {
-    await api.delete(`/products/${productId}`);
+  useEffect(() => {
+    loadProducts();
+    setLoading(false);
+  }, []);
 
-    const productIndex = products.findIndex((p) => p.id === productId);
+  async function removeProductBulk(products = []) {
+    try {
+      if (products.length > 0) {
+        setLoading(true);
+
+        products.forEach(
+          async (product) =>
+            await ProductRepository.deleteById(product.id, 'Product'),
+        );
+
+        loadProducts();
+        setLoading(false);
+      }
+
+      setProductsForRemoving([]);
+    } catch (error) {
+      console.tron.warn(error);
+    }
+  }
+
+  async function removeProduct({ id }) {
+    setLoading(true);
+
+    await ProductRepository.deleteById(id, 'Product');
+
+    const productIndex = products.findIndex((p) => p.id === id);
     if (productIndex >= 0) {
       const newArr = [...products];
       newArr.splice(productIndex, 1);
 
       setProducts(newArr);
     }
+
+    setLoading(false);
   }
 
   async function registerProduct(product) {
-    if (product.title === '') {
-      return ToastAndroid.show(
-        'Preencha todos os campos para adicionar o produto',
+    try {
+      setLoading(true);
+      if (product.title === '') {
+        setLoading(false);
+        return ToastAndroid.show(
+          'Preencha todos os campos para adicionar o produto',
+          ToastAndroid.LONG,
+          ToastAndroid.CENTER,
+        );
+      }
+
+      product.price = product.price.replace('R$', '');
+      product.price = Number(product.price.replace(',', '.'));
+      product.quantity = Number(product.quantity);
+      product.id = await ProductRepository.generateId(product, 'Product');
+
+      await ProductRepository.create(product, 'Product');
+
+      const createdProduct = {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        quantity: product.quantity,
+        subTotal: product.price * product.quantity,
+      };
+
+      setProducts([...products, createdProduct]);
+
+      setLoading(false);
+      ToastAndroid.show(
+        `[${product.title}] adicionado no carrinho :)`,
         ToastAndroid.LONG,
         ToastAndroid.CENTER,
       );
+    } catch (error) {
+      setLoading(false);
+      ToastAndroid.show(error.message, ToastAndroid.BOTTOM, ToastAndroid.LONG);
     }
-
-    product.price = product.price.replace('R$', '');
-    product.price = Number(product.price.replace(',', '.'));
-
-    const response = await api.post('/products', product);
-
-    const createdProduct = {
-      id: response.data.id,
-      title: response.data.title,
-      price: response.data.price,
-      quantity: response.data.quantity,
-      subTotal: response.data.price * response.data.quantity,
-    };
-
-    setProducts([...products, createdProduct]);
   }
 
-  async function updateProduct(product) {
+  async function updateProduct(product, navigation) {
     if (product.title === '') {
       return ToastAndroid.show(
         'Preencha todos os campos para adicionar o produto',
@@ -54,18 +101,12 @@ export default function useShopping() {
 
     product.price = product.price.replace('R$', '');
     product.price = Number(product.price.replace(',', '.'));
+    product.quantity = Number(product.quantity);
 
-    await api.put('/products/' + product.id, product);
-
-    const updatedProduct = {
-      id: product.id,
-      title: product.title,
-      price: product.price,
-      quantity: product.quantity,
-      subTotal: product.price * product.quantity,
-    };
+    await ProductRepository.update(product, 'Product');
 
     loadProducts();
+    navigation.goBack();
   }
 
   async function updateQuantity(product, quantity) {
@@ -87,7 +128,7 @@ export default function useShopping() {
         quantity,
       };
 
-      await api.put(`/products/${product.id}`, updatedProduct);
+      await ProductRepository.update(updatedProduct, 'Product');
 
       setProducts((state) => {
         state[productIndex].quantity = updatedProduct.quantity;
@@ -100,26 +141,29 @@ export default function useShopping() {
   }
 
   async function loadProducts() {
-    const response = await api.get('/products');
+    setLoading(true);
 
-    const productsData = response.data.map((product) => ({
-      ...product,
+    const data = await ProductRepository.fetch('Product');
+
+    const products = data.map((product) => ({
+      id: product.id,
+      title: product.title,
+      quantity: product.quantity,
       price: product.price,
       subTotal: Number(product.quantity * product.price),
     }));
 
-    setProducts(productsData);
-  }
-
-  useEffect(() => {
-    loadProducts();
+    setProducts(products);
     setLoading(false);
-  }, []);
+  }
 
   return {
     loading,
     products,
+    productsForRemoving,
+    setProductsForRemoving,
     removeProduct,
+    removeProductBulk,
     registerProduct,
     updateQuantity,
     updateProduct,
