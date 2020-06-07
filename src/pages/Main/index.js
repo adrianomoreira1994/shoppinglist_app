@@ -8,7 +8,6 @@ import { Container, List, ContaienrList } from './styles';
 
 import ListItem from '~/components/ListItem';
 import Balance from '~/components/Balance';
-import FloatingActionButton from '~/components/FloatingActionButton';
 
 export default function Main({ navigation }) {
   const [buttonHidden, setButtonHidden] = useState(false);
@@ -22,24 +21,21 @@ export default function Main({ navigation }) {
         barStyle="light-content"
       />
 
-      <FloatingActionButton
-        buttonHidden={buttonHidden}
-        onPress={() => navigation.navigate('Product')}
-      />
-
       <Balance />
 
-      <ContaienrList>
-        <List
-          nestedScrollEnabled={true}
-          keyboardShouldPersistTaps="never"
-          onScrollBeginDrag={() => setButtonHidden(true)}
-          onScrollEndDrag={() => setButtonHidden(false)}
-          data={products}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => <ListItem data={item} />}
-        />
-      </ContaienrList>
+      {products.length > 0 ? (
+        <ContaienrList>
+          <List
+            nestedScrollEnabled={true}
+            keyboardShouldPersistTaps="never"
+            onScrollBeginDrag={() => setButtonHidden(true)}
+            onScrollEndDrag={() => setButtonHidden(false)}
+            data={products}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item }) => <ListItem data={item} />}
+          />
+        </ContaienrList>
+      ) : null}
     </Container>
   );
 }

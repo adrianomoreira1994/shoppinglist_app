@@ -53,72 +53,36 @@ export default function ListItem({ data }) {
 
   return (
     <Swipe data={data} handleUpdate={handleUpdate} handleDelete={handleDelete}>
-      <LongPressGestureHandler
-        onHandlerStateChange={({ nativeEvent }) => {
-          if (nativeEvent.state === State.ACTIVE) {
-            setChangeStyle(true);
-            setProductsForRemoving([...productsForRemoving, data]);
-          }
-        }}
-        ref={(press) => (doubleTapRef.current = press)}
-        minDurationMs={800}>
-        <TapGestureHandler
-          waitFor={doubleTapRef}
-          onHandlerStateChange={({ nativeEvent }) => {
-            if (nativeEvent.state === State.END && changeStyle === true) {
-              setChangeStyle(false);
+      <Container changeStyle={changeStyle}>
+        <ContainerPrice>
+          <Price>{formatPrice(data.subTotal)}</Price>
+        </ContainerPrice>
 
-              const product = productsForRemoving.findIndex(
-                (p) => p.id === data.id,
-              );
-
-              if (product >= 0) {
-                const newArr = [...productsForRemoving];
-                newArr.splice(product, 1);
-
-                setProductsForRemoving(newArr);
-              }
-            }
-          }}>
-          <Container changeStyle={changeStyle}>
-            <ContainerPrice>
-              <Price>{formatPrice(data.subTotal)}</Price>
-            </ContainerPrice>
-
-            <Content>
-              <Title numberOfLines={1} ellipsizeMode="tail">
-                {data.title}
-              </Title>
-              <ContentValues>
-                <PriceLabel>
-                  Preço Unitário {formatPrice(data.price)}
-                </PriceLabel>
-                <ContainerQuantity>
-                  <Button
-                    hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-                    onPress={() =>
-                      updateQuantity(data, Number(data.quantity) - 1)
-                    }>
-                    <FontAwesome
-                      name="minus-circle"
-                      size={20}
-                      color="#00b874"
-                    />
-                  </Button>
-                  <Quantity value={String(data.quantity)} editable={false} />
-                  <Button
-                    hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-                    onPress={() =>
-                      updateQuantity(data, Number(data.quantity) + 1)
-                    }>
-                    <FontAwesome name="plus-circle" size={20} color="#00b874" />
-                  </Button>
-                </ContainerQuantity>
-              </ContentValues>
-            </Content>
-          </Container>
-        </TapGestureHandler>
-      </LongPressGestureHandler>
+        <Content>
+          <Title numberOfLines={1} ellipsizeMode="tail">
+            {data.title}
+          </Title>
+          <ContentValues>
+            <PriceLabel>Preço Unitário {formatPrice(data.price)}</PriceLabel>
+            <ContainerQuantity>
+              <Button
+                hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+                onPress={() => {
+                  console.tron.log(data);
+                  updateQuantity(data, Number(data.quantity) - 1);
+                }}>
+                <FontAwesome name="minus-circle" size={20} color="#00b874" />
+              </Button>
+              <Quantity value={String(data.quantity)} editable={false} />
+              <Button
+                hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+                onPress={() => updateQuantity(data, Number(data.quantity) + 1)}>
+                <FontAwesome name="plus-circle" size={20} color="#00b874" />
+              </Button>
+            </ContainerQuantity>
+          </ContentValues>
+        </Content>
+      </Container>
     </Swipe>
   );
 }

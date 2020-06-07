@@ -1,16 +1,15 @@
 import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
-import { BaseButton, RectButton } from 'react-native-gesture-handler';
-import Animated from 'react-native-reanimated';
 
 export const Container = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+  padding: 20px 0 10px;
 `;
 
 export const BalanceContainer = styled.View`
-  margin: 10px 0;
+  margin-top: 20px;
 `;
 
 export const BalanceLabel = styled.Text`
@@ -18,6 +17,17 @@ export const BalanceLabel = styled.Text`
   font-family: 'Roboto Medium';
   color: #fff;
   font-size: 16px;
+`;
+
+export const NotItemLabel = styled.Text`
+  text-align: center;
+  font-family: 'Roboto Light';
+  color: #fff;
+  font-size: 20px;
+  width: 200px;
+  border-bottom-width: 1px;
+  border-color: rgba(255, 255, 255, 0.4);
+  padding-bottom: 15px;
 `;
 
 export const Value = styled.Text`
