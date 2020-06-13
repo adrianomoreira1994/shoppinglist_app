@@ -3,12 +3,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Main from '~/pages/Main';
 import Product from '~/pages/Product';
+import SignIn from './pages/SignIn';
 
 const Stack = createStackNavigator();
 
 export default function Routes() {
   return (
     <Stack.Navigator
+      initialRouteName="SignIn"
       headerMode="screen"
       screenOptions={{
         headerStyle: {
@@ -21,6 +23,13 @@ export default function Routes() {
           fontFamily: 'Roboto Bold',
         },
       }}>
+      <Stack.Screen
+        options={{
+          header: () => null,
+        }}
+        name="SignIn"
+        component={SignIn}
+      />
       <Stack.Screen
         options={{
           header: () => null,

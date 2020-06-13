@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ToastAndroid } from 'react-native';
 import ProductRepository from '~/repositories/ProductRepository';
-import uuid from '~/util/uuid';
 
 export default function useShopping() {
   const [products, setProducts] = useState([]);
@@ -143,7 +142,7 @@ export default function useShopping() {
   async function loadProducts() {
     setLoading(true);
 
-    const data = await ProductRepository.fetch('Product');
+    const data = await ProductRepository.fetch();
 
     const products = data.map((product) => ({
       id: product.id,
