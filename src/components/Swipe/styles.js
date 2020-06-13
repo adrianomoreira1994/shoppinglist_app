@@ -14,7 +14,6 @@ export const LeftAction = styled(RectButton).attrs({
   align-items: center;
   flex-direction: ${I18nManager.isRTL ? 'row' : 'row-reverse'};
   height: 100px;
-  border-radius: 6px;
 `;
 
 export const RightAction = styled(RectButton).attrs({
@@ -26,7 +25,6 @@ export const RightAction = styled(RectButton).attrs({
   flex: 1;
   justify-content: flex-end;
   height: 100px;
-  border-radius: 10px;
 `;
 
 export const ActionIcon = styled(AnimatedIcon)`

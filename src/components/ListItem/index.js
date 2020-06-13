@@ -63,7 +63,7 @@ export default function ListItem({ data }) {
             {data.title}
           </Title>
           <ContentValues>
-            <PriceLabel>Preço Unitário {formatPrice(data.price)}</PriceLabel>
+            <PriceLabel>Preço: {formatPrice(data.price)}</PriceLabel>
             <ContainerQuantity>
               <Button
                 hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}

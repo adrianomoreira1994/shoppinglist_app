@@ -1,22 +1,12 @@
 import styled from 'styled-components/native';
-import { BaseButton } from 'react-native-gesture-handler';
-
-export const Options = styled(BaseButton)`
-  position: absolute;
-  top: -5px;
-  right: 0px;
-  padding: 15px;
-`;
 
 export const Container = styled.View`
-  background-color: ${(props) =>
-    props.changeStyle ? 'rgba(0, 0, 0, 0.2)' : '#fff'};
-  border-radius: 6px;
+  background-color: #FFFFFF;
   margin: 0 15px 15px;
   flex-direction: row;
   align-items: center;
   height: 100px;
-  elevation: ${(props) => (props.changeStyle ? 0 : 2)};
+  elevation: 1;
 `;
 
 export const Content = styled.View`
@@ -25,15 +15,15 @@ export const Content = styled.View`
 `;
 
 export const Title = styled.Text`
-  font-size: 16px;
+  font-size: 20px;
   margin-bottom: 8px;
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.7);
   font-family: 'Roboto Bold';
 `;
 
 export const PriceLabel = styled.Text`
   font-size: 14px;
-  color: rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.6);
   font-family: 'Roboto Regular';
   flex: 1;
 `;
@@ -76,8 +66,6 @@ export const ContainerPrice = styled.View`
   background-color: #00b874;
   justify-content: center;
   align-items: center;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
   width: 120px;
   height: 100px;
 `;

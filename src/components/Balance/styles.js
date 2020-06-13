@@ -1,7 +1,12 @@
 import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
-export const Container = styled.View`
+export const Container = styled(LinearGradient).attrs({
+  colors: ['#53E381', '#00b874'],
+  start: { x: 1, y: 1 },
+  end: { x: 0, y: 0 },
+})`
   flex: 1;
   justify-content: center;
   align-items: center;
