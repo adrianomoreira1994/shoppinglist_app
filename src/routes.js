@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { sign } from '~/services/auth';
 
 import Main from '~/pages/Main';
 import Product from '~/pages/Product';
@@ -7,10 +8,10 @@ import SignIn from './pages/SignIn';
 
 const Stack = createStackNavigator();
 
-export default function Routes() {
+export default function Routes({ signedIn = false }) {
   return (
     <Stack.Navigator
-      initialRouteName="SignIn"
+      initialRouteName={signedIn ? 'Home' : 'SignIn'}
       headerMode="screen"
       screenOptions={{
         headerStyle: {

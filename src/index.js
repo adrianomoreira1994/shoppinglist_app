@@ -1,17 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '~/config/ReactotronConfig';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { ShoppingProvider } from '~/Context/ShoppingContext';
 
 import Routes from '~/routes';
+import { isSignedIn } from '~/services/auth';
 
 export default function App() {
+  const [signed, setSigned] = useState();
+
+  useEffect(() => {
+    (async function () {
+      const signed = await isSignedIn();
+      setSigned(signed);
+    })();
+  }, []);
+
   return (
-    <ShoppingProvider>
-      <NavigationContainer>
-        <Routes />
-      </NavigationContainer>
-    </ShoppingProvider>
+    <NavigationContainer>
+      <Routes signedIn={signed} />
+    </NavigationContainer>
   );
 }

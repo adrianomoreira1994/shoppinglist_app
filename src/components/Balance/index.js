@@ -1,13 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-import { Context } from '~/Context/ShoppingContext';
 
 import format from '~/util/format';
 
 import {
-  NotItemLabel,
   Container,
   BalanceContainer,
   BalanceLabel,
@@ -18,29 +15,26 @@ import {
   NewItemLabel,
 } from './styles';
 
-export default function Balance() {
+export default function Balance({ products }) {
   const navigation = useNavigation();
-  const { products } = useContext(Context);
-  let totalPrice = format(
-    useContext(Context).products.reduce((total, product) => {
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    const totalPrice = products.reduce((total, product) => {
       return total + Number(product.quantity) * Number(product.price);
-    }, 0),
-  );
+    }, 0);
+
+    setTotal(format(totalPrice));
+  }, []);
 
   return (
     <Container>
-      {products.length > 0 ? (
-        <BalanceContainer>
-          <BalanceLabel>Total da compra</BalanceLabel>
-          <Value>
-            <Bold>{totalPrice === 0 ? '0,00' : String(totalPrice)}</Bold>
-          </Value>
-        </BalanceContainer>
-      ) : (
-        <BalanceContainer>
-          <NotItemLabel>Você não tem itens cadastrados</NotItemLabel>
-        </BalanceContainer>
-      )}
+      <BalanceContainer>
+        <BalanceLabel>Total da compra</BalanceLabel>
+        <Value>
+          <Bold>{total}</Bold>
+        </Value>
+      </BalanceContainer>
 
       <Actions>
         <NewItem onPress={() => navigation.navigate('Product')}>

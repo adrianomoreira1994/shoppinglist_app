@@ -1,16 +1,7 @@
-import React, { useContext, useState, useRef } from 'react';
-import {
-  LongPressGestureHandler,
-  TapGestureHandler,
-  State,
-} from 'react-native-gesture-handler';
+import React, { useState, useEffect } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
-import { Context } from '~/Context/ShoppingContext';
 import { useNavigation } from '@react-navigation/native';
-
 import Swipe from '~/components/Swipe';
-
 import formatPrice from '~/util/format';
 
 import {
@@ -29,14 +20,19 @@ import {
 
 export default function ListItem({ data }) {
   const navigation = useNavigation();
-  const doubleTapRef = useRef();
+  const [product, setProduct] = useState([]);
   const [changeStyle, setChangeStyle] = useState(false);
-  const {
-    updateQuantity,
-    removeProduct,
-    setProductsForRemoving,
-    productsForRemoving,
-  } = useContext(Context);
+
+  useEffect(() => {
+    const productsData = {
+      title: data.title,
+      price: formatPrice(data.price),
+      quantity: data.quantity,
+      subTotal: formatPrice(data.subTotal),
+    };
+
+    setProduct(productsData);
+  }, []);
 
   function handleDelete(product) {
     removeProduct(product);
@@ -52,31 +48,35 @@ export default function ListItem({ data }) {
   }
 
   return (
-    <Swipe data={data} handleUpdate={handleUpdate} handleDelete={handleDelete}>
+    <Swipe
+      data={product}
+      handleUpdate={handleUpdate}
+      handleDelete={handleDelete}>
       <Container changeStyle={changeStyle}>
         <ContainerPrice>
-          <Price>{formatPrice(data.subTotal)}</Price>
+          <Price>{product.subTotal}</Price>
         </ContainerPrice>
 
         <Content>
           <Title numberOfLines={1} ellipsizeMode="tail">
-            {data.title}
+            {product.title}
           </Title>
           <ContentValues>
-            <PriceLabel>Preço: {formatPrice(data.price)}</PriceLabel>
+            <PriceLabel>Preço: {product.price}</PriceLabel>
             <ContainerQuantity>
               <Button
                 hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
                 onPress={() => {
-                  console.tron.log(data);
-                  updateQuantity(data, Number(data.quantity) - 1);
+                  updateQuantity(product, Number(product.quantity) - 1);
                 }}>
                 <FontAwesome name="minus-circle" size={20} color="#00b874" />
               </Button>
-              <Quantity value={String(data.quantity)} editable={false} />
+              <Quantity value={String(product.quantity)} editable={false} />
               <Button
                 hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-                onPress={() => updateQuantity(data, Number(data.quantity) + 1)}>
+                onPress={() =>
+                  updateQuantity(product, Number(product.quantity) + 1)
+                }>
                 <FontAwesome name="plus-circle" size={20} color="#00b874" />
               </Button>
             </ContainerQuantity>

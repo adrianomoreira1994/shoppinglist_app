@@ -20,45 +20,42 @@ export const Form = styled.View`
   padding: 20px;
 `;
 
-export const Input = styled.TextInput.attrs({
-  placeholderTextColor: 'rgba(255, 255, 255, 0.6)',
-})`
-  height: 100px;
-  font-size: 25px;
+export const Input = styled.TextInput`
+  height: 60px;
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 20px;
   font-family: 'Roboto Regular';
   color: #fff;
-  border-bottom-width: 2px;
-  border-bottom-color: rgba(255, 255, 255, 0.2);
-  margin-bottom: 20px;
-`;
-
-export const InputMasked = styled(TextInputMask).attrs({
-  placeholderTextColor: 'rgba(255, 255, 255, 0.6)',
-})`
-  height: 100px;
-  font-size: 25px;
-  font-family: 'Roboto Regular';
-  color: #fff;
-  border-bottom-width: 2px;
-  border-bottom-color: rgba(255, 255, 255, 0.2);
+  padding-left: 8px;
   flex: 1;
-  margin-left: 15px;
 `;
 
-export const FormGroup = styled.View`
-  flex-direction: row;
+export const Select = styled.Picker`
+  height: 60px;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  font-size: 20px;
+`;
+
+export const InputMasked = styled(TextInputMask)`
+  height: 60px;
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 20px;
+  font-family: 'Roboto Regular';
+  color: #fff;
+  padding-left: 8px;
+  flex: 1;
 `;
 
 export const Submit = styled(BaseButton)`
   background-color: #fbfbfb;
   height: 60px;
-  border-radius: 30px;
   align-items: center;
   justify-content: center;
   flex-direction: row;
   width: 200px;
-  elevation: 2;
   margin: 40px auto 0;
+  elevation: 2;
 `;
 
 export const SubmitLabel = styled.Text`
@@ -66,4 +63,15 @@ export const SubmitLabel = styled.Text`
   margin-left: 10px;
   font-family: 'Roboto Medium';
   font-size: 20px;
+`;
+
+export const Label = styled.View`
+  margin-bottom: 25px;
+`;
+
+export const LabelText = styled.Text`
+  color: #fff;
+  font-size: 20px;
+  font-family: 'Roboto Light';
+  margin-bottom: 10px;
 `;

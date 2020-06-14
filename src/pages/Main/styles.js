@@ -18,8 +18,13 @@ export const ContaienrList = styled.View`
   border-top-left-radius: 25px;
 `;
 
-export const Loading = styled.View`
+export const Loading = styled(LinearGradient).attrs({
+  colors: ['#53E381', '#00b874'],
+  start: { x: 1, y: 1 },
+  end: { x: 0, y: 0 },
+})`
   flex: 1;
   justify-content: center;
   align-items: center;
+  padding: 20px 0 10px;
 `;

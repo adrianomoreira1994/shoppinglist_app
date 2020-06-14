@@ -9,6 +9,7 @@ export const Container = styled(LinearGradient).attrs({
 })`
   flex: 1;
   justify-content: center;
+  padding: 20px;
 `;
 
 export const Form = styled.View`
