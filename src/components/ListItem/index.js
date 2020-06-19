@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import Swipe from '~/components/Swipe';
-import formatPrice from '~/util/format';
+
+import format from '~/util/format';
 
 import {
-  Options,
   Container,
   Content,
   Title,
@@ -18,34 +18,14 @@ import {
   ContentValues,
 } from './styles';
 
-export default function ListItem({ data }) {
+export default function ListItem({
+  product,
+  handleDelete,
+  handleUpdate,
+  updateQuantity,
+}) {
   const navigation = useNavigation();
-  const [product, setProduct] = useState([]);
   const [changeStyle, setChangeStyle] = useState(false);
-
-  useEffect(() => {
-    const productsData = {
-      title: data.title,
-      price: formatPrice(data.price),
-      quantity: data.quantity,
-      subTotal: formatPrice(data.subTotal),
-    };
-
-    setProduct(productsData);
-  }, []);
-
-  function handleDelete(product) {
-    removeProduct(product);
-  }
-
-  function handleUpdate() {
-    navigation.navigate('Product', {
-      id: data.id,
-      title: data.title,
-      quantity: data.quantity,
-      price: formatPrice(data.price),
-    });
-  }
 
   return (
     <Swipe
@@ -67,15 +47,25 @@ export default function ListItem({ data }) {
               <Button
                 hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
                 onPress={() => {
-                  updateQuantity(product, Number(product.quantity) - 1);
+                  updateQuantity(
+                    product.id,
+                    Number(product.quantity) - 1,
+                    'decrement',
+                  );
                 }}>
                 <FontAwesome name="minus-circle" size={20} color="#00b874" />
               </Button>
+
               <Quantity value={String(product.quantity)} editable={false} />
+
               <Button
                 hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
                 onPress={() =>
-                  updateQuantity(product, Number(product.quantity) + 1)
+                  updateQuantity(
+                    product.id,
+                    Number(product.quantity) + 1,
+                    'increment',
+                  )
                 }>
                 <FontAwesome name="plus-circle" size={20} color="#00b874" />
               </Button>

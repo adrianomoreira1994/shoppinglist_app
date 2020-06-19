@@ -5,11 +5,22 @@ import { useNavigation } from '@react-navigation/native';
 import { ActivityIndicator } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
 
 import { onSignIn } from '../../services/auth';
 import api from '../../services/api';
 
-import { Container, Form, Input, Button, ButtonLabel } from './styles';
+import {
+  Container,
+  Logo,
+  LogoLabel,
+  Form,
+  Label,
+  LabelText,
+  Input,
+  Button,
+  ButtonLabel,
+} from './styles';
 
 const SignIn = () => {
   const navigation = useNavigation();
@@ -41,18 +52,27 @@ const SignIn = () => {
 
   return (
     <Container>
+      <Logo>
+        <Feather name="shopping-cart" size={45} color="#FFF" />
+        <LogoLabel>Lista de Compras</LogoLabel>
+      </Logo>
       <Form>
-        <Input
-          keyboardType={'email-address'}
-          onChangeText={(text) => setEmail(text)}
-          placeholder="E-mail"
-        />
+        <Label>
+          <LabelText>Seu e-mail:</LabelText>
+          <Input
+            keyboardType={'email-address'}
+            onChangeText={(text) => setEmail(text)}
+          />
+        </Label>
 
-        <Input
-          secureTextEntry={true}
-          onChangeText={(text) => setPassword(text)}
-          placeholder="Senha"
-        />
+        <Label>
+          <LabelText>Sua senha:</LabelText>
+          <Input
+            secureTextEntry={true}
+            onChangeText={(text) => setPassword(text)}
+            onSubmitEditing={handleSubmit}
+          />
+        </Label>
 
         <Button onPress={handleSubmit}>
           {loading ? (

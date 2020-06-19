@@ -7,7 +7,8 @@ import { Container, List, ContaienrList, Loading } from './styles';
 import ListItem from '~/components/ListItem';
 import Balance from '~/components/Balance';
 import api from '~/services/api';
-import format from '~/util/format';
+
+import formatPrice from '~/util/format';
 
 export default function Main() {
   const [loading, setLoading] = useState(false);
@@ -18,23 +19,60 @@ export default function Main() {
     (async function () {
       try {
         setLoading(true);
-        const response = await api.get('/products');
 
-        const productsData = response.data.map((product) => ({
+        const { data } = await api.get('/products');
+
+        const productsData = data.map((product) => ({
           id: product.id,
           title: product.title,
-          quantity: product.quantity,
           price: product.price,
-          subTotal: product.subTotal,
+          quantity: product.quantity,
+          category_id: product.category_id,
+          subTotal: formatPrice(product.subTotal),
         }));
 
         setProducts(productsData);
+
         setLoading(false);
       } catch (error) {
         setLoading(false);
       }
     })();
   }, []);
+
+  async function handleDelete(product) {
+    await api.delete(`/products/${product.id}`);
+
+    const newProductsArray = products.filter((p) => p.id !== product.id);
+    setProducts(newProductsArray);
+  }
+
+  async function updateQuantity(productId, quantity, type) {
+    const response = await api.post(
+      `/products/${productId}/quantity?type=${type}`,
+    );
+
+    const quantityProduct = response.data;
+
+    const productsWithUpdatedQuantity = products.map((product) => {
+      if (product.id === productId) {
+        return quantityProduct;
+      } else {
+        return product;
+      }
+    });
+
+    setProducts(productsWithUpdatedQuantity);
+  }
+
+  function handleUpdate() {
+    navigation.navigate('Product', {
+      id: data.id,
+      title: data.title,
+      quantity: data.quantity,
+      price: formatPrice(data.price),
+    });
+  }
 
   return loading ? (
     <Loading>
@@ -59,7 +97,14 @@ export default function Main() {
             onScrollEndDrag={() => setButtonHidden(false)}
             data={products}
             keyExtractor={(item) => String(item.id)}
-            renderItem={({ item }) => <ListItem data={item} />}
+            renderItem={({ item }) => (
+              <ListItem
+                handleDelete={() => handleDelete(item)}
+                handleUpdate={() => handleUpdate()}
+                updateQuantity={updateQuantity}
+                product={item}
+              />
+            )}
           />
         </ContaienrList>
       ) : null}

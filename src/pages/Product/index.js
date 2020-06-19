@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Picker } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import { ActivityIndicator, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -18,7 +18,7 @@ import {
 } from './styles';
 import api from '~/services/api';
 
-export default function Product({ navigation }) {
+export default function Product() {
   const [loading, setLoading] = useState(false);
   const [productId, setId] = useState('');
   const [title, setTitle] = useState('');
@@ -32,6 +32,7 @@ export default function Product({ navigation }) {
   const priceRef = useRef(null);
 
   const routeData = useRoute();
+  const navigation = useNavigation();
 
   useEffect(() => {
     (async function () {
@@ -50,8 +51,6 @@ export default function Product({ navigation }) {
   }, []);
 
   function handleSubmitForm() {
-    setLoading(true);
-
     const product = {
       title,
       quantity,
@@ -64,14 +63,20 @@ export default function Product({ navigation }) {
       createProduct(product);
     }
 
-    setLoading(false);
+    navigation.navigate('Home');
   }
 
   async function createProduct(product) {
+    setLoading(true);
+
     try {
       product.price = product.price.replace('R$', '');
-      product.price = product.price.replace(',', '.');
-      product.price = product.price.replace('.', '');
+
+      if (String(product.price).indexOf('.') >= 1) {
+        product.price = Number(product.price.replace(',', ''));
+      } else {
+        product.price = Number(product.price.replace(',', '.'));
+      }
 
       const productData = {
         ...product,
@@ -79,8 +84,10 @@ export default function Product({ navigation }) {
       };
 
       await api.post('/products', productData);
+      setLoading(false);
     } catch (error) {
       setLoading(false);
+      console.tron.log(error.message);
     }
   }
 

@@ -8,31 +8,50 @@ export const Container = styled(LinearGradient).attrs({
   end: { x: 1, y: 1 },
 })`
   flex: 1;
-  justify-content: center;
   padding: 20px;
 `;
 
-export const Form = styled.View`
-  padding: 10px;
-  width: 100%;
+export const Logo = styled.View`
+  height: 200px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
 `;
 
-export const Input = styled.TextInput.attrs({
-  placeholderTextColor: 'rgba(255, 255, 255, 0.6)',
-})`
-  height: 100px;
-  font-size: 25px;
+export const LogoLabel = styled.Text`
+  font-size: 30px;
+  color: #fff;
+  font-family: 'Roboto Bold';
+  margin-left: 20px;
+`;
+
+export const Form = styled.View`
+  padding: 20px;
+`;
+
+export const Input = styled.TextInput`
+  height: 60px;
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 20px;
   font-family: 'Roboto Regular';
   color: #fff;
-  border-bottom-width: 2px;
-  border-bottom-color: rgba(255, 255, 255, 0.2);
-  margin-bottom: 20px;
+  padding-left: 8px;
+`;
+
+export const Label = styled.View`
+  margin-bottom: 25px;
+`;
+
+export const LabelText = styled.Text`
+  color: #fff;
+  font-size: 20px;
+  font-family: 'Roboto Regular';
+  margin-bottom: 10px;
 `;
 
 export const Button = styled(RectButton)`
   background-color: #fbfbfb;
   height: 60px;
-  border-radius: 30px;
   align-items: center;
   justify-content: center;
   flex-direction: row;
